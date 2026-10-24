@@ -1,0 +1,7 @@
+{"modo":"mesa","partidas":1500,"trabadas":0,"invariantes":0,"rondas":20.2,"titulos_con_dueno_pct":{"tunel":72,"leyenda":82,"hueste":45}}
+constructor          {"gana_pct":29.5,"pv":9.7,"saqueos":3.5,"exito":34,"recursos_perdidos":9,"legendario_pct":9,"muestras":1023}
+saqueador            {"gana_pct":25.5,"pv":8.1,"saqueos":6.2,"exito":51,"recursos_perdidos":3.3,"legendario_pct":23,"muestras":953}
+mercader             {"gana_pct":20.1,"pv":8.9,"saqueos":3.6,"exito":34,"recursos_perdidos":7,"legendario_pct":7,"muestras":1000}
+oportunista          {"gana_pct":34,"pv":10.1,"saqueos":4.3,"exito":31,"recursos_perdidos":10.1,"legendario_pct":5,"muestras":1038}
+defensor             {"gana_pct":24.7,"pv":9.3,"saqueos":3.5,"exito":27,"recursos_perdidos":9.4,"legendario_pct":6,"muestras":984}
+ascendente           {"gana_pct":15.8,"pv":7,"saqueos":7,"exito":47,"recursos_perdidos":2.2,"legendario_pct":19,"muestras":1002}

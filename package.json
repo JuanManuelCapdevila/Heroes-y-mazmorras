@@ -1,0 +1,15 @@
+{
+  "name": "senores-de-las-profundidades",
+  "version": "0.5.1",
+  "description": "Expansión no oficial para Catán: cuevas, criptas, héroes saqueadores y trampas ocultas. Prototipo web jugable contra bots o en línea, y simulador de balance.",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "node build.js",
+    "test": "node sims/humo.js 200",
+    "sim:personalidades": "node sims/personalidades.js 3000 mesa",
+    "sim:legendario": "node sims/legendario-temprano.js 500",
+    "sim:recursos": "node sims/recursos.js 1000"
+  },
+  "engines": { "node": ">=18" }
+}

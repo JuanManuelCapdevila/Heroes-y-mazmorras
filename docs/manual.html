@@ -1,0 +1,363 @@
+<title>Señores de las Profundidades</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: reglamento de dos columnas — índice fijo a la izquierda, texto a 65ch; tablas como fichas de referencia */
+:root {
+  --bg: #ecebef;          /* piedra caliza fría */
+  --surface: #f7f6f9;
+  --ink: #1f1c27;
+  --muted: #5d5868;
+  --line: #cfccd6;
+  --accent: #5e3891;      /* amatista de cripta */
+  --accent-soft: #e6dff0;
+  --gold: #8a6416;        /* oro de botín */
+  --gold-soft: #f1e6cc;
+  --danger: #9b2c2c;
+  --ok: #2f6b45;
+  --display: "Alegreya SC", "Palatino Linotype", Georgia, serif;
+  --body: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15131b; --surface: #1d1a25; --ink: #e7e3ee; --muted: #a59fb2; --line: #34303f;
+  --accent: #b896e6; --accent-soft: #2c2340; --gold: #e2b75a; --gold-soft: #33290f;
+  --danger: #ec8a8a; --ok: #86c99d; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #15131b; --surface: #1d1a25; --ink: #e7e3ee; --muted: #a59fb2; --line: #34303f;
+  --accent: #b896e6; --accent-soft: #2c2340; --gold: #e2b75a; --gold-soft: #33290f;
+  --danger: #ec8a8a; --ok: #86c99d; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 64px }
+a { color: var(--accent) }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 56px }
+header.top { max-width: 1120px; margin: 0 auto; padding-block: 48px 32px; border-bottom: 1px solid var(--line); margin-bottom: 40px }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 6vw, 58px); line-height: 1.05; margin: 10px 0 12px; text-wrap: balance; letter-spacing: .01em }
+.lede { font-size: 20px; color: var(--muted); max-width: 62ch; margin: 0 }
+.lede em { color: var(--ink) }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px; font-family: var(--mono); font-size: 13px; color: var(--muted) }
+.chip { display: inline-block; padding: 2px 8px; border-radius: 4px; background: var(--gold-soft); color: var(--gold); font-weight: 500 }
+
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: 15px }
+nav.toc ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; counter-reset: s }
+nav.toc li { counter-increment: s }
+nav.toc a { color: var(--muted); text-decoration: none; display: block; padding: 2px 0 }
+nav.toc a::before { content: counter(s) "  "; font-family: var(--mono); font-size: 12px; color: var(--line); margin-right: 6px }
+nav.toc a:hover { color: var(--accent) }
+
+main { min-width: 0; counter-reset: sec }
+section { margin-bottom: 56px; max-width: 72ch }
+section.wide { max-width: none }
+h2 { font-family: var(--display); font-weight: 700; font-size: 30px; margin: 0 0 16px; line-height: 1.2; text-wrap: balance; counter-increment: sec }
+h2::before { content: counter(sec); font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--accent); margin-right: 14px; vertical-align: 6px }
+h3 { font-family: var(--display); font-weight: 500; font-size: 21px; margin: 28px 0 8px; color: var(--accent) }
+p { margin: 0 0 14px }
+ul, ol { padding-left: 22px; margin: 0 0 14px }
+li { margin-bottom: 6px }
+strong { font-weight: 700 }
+.res { font-family: var(--mono); font-size: 14px; white-space: nowrap }
+.pv { font-family: var(--mono); font-size: 13px; padding: 1px 6px; border-radius: 3px; background: var(--accent-soft); color: var(--accent); white-space: nowrap }
+.oro { font-family: var(--mono); font-size: 13px; padding: 1px 6px; border-radius: 3px; background: var(--gold-soft); color: var(--gold); white-space: nowrap }
+
+.tbl { overflow-x: auto; margin: 12px 0 20px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top }
+th { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--bg) }
+tr:last-child td { border-bottom: 0 }
+td.num, th.num { text-align: right; font-family: var(--mono); font-size: 14px }
+td.p { text-align: center; font-family: var(--mono); font-size: 14px }
+td.p span { display: inline-block; min-width: 46px; padding: 2px 6px; border-radius: 3px }
+
+.steps { list-style: none; padding: 0; counter-reset: st; display: grid; gap: 12px }
+.steps li { counter-increment: st; display: grid; grid-template-columns: 34px minmax(0,1fr); gap: 12px; margin: 0 }
+.steps li::before { content: counter(st); font-family: var(--display); font-weight: 700; font-size: 20px; color: var(--accent); width: 34px; height: 34px; border: 1.5px solid var(--accent); border-radius: 50%; display: grid; place-items: center; line-height: 1 }
+
+.heroes { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 14px 0 20px }
+.hero { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 4px; align-content: start }
+.hero .d { font-family: var(--mono); font-size: 12px; color: var(--muted) }
+.hero .n { font-family: var(--display); font-weight: 700; font-size: 20px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px }
+.hero .b { font-family: var(--mono); font-size: 15px; color: var(--accent) }
+.hero p { margin: 0; font-size: 15px; color: var(--muted) }
+
+.note { border-left: 3px solid var(--gold); padding: 10px 16px; background: var(--gold-soft); border-radius: 0 6px 6px 0; margin: 16px 0; font-size: 15.5px }
+.note b { color: var(--gold) }
+.formula { font-family: var(--mono); font-size: 15px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; margin: 12px 0 18px; overflow-x: auto; white-space: nowrap }
+
+.toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin: 6px 0 4px }
+.toggle button { font: 500 13px var(--mono); background: var(--surface); color: var(--muted); border: 0; padding: 7px 12px; cursor: pointer }
+.toggle button[aria-pressed="true"] { background: var(--accent); color: var(--bg) }
+td.p { text-align: center; font-family: var(--mono); font-size: 14px }
+td.p span { display: inline-block; min-width: 44px; padding: 2px 6px; border-radius: 3px }
+
+.cmp td.d-up { color: var(--ok) } .cmp td.d-down { color: var(--danger) }
+.q { counter-reset: q; list-style: none; padding: 0 }
+.q li { counter-increment: q; padding: 12px 0; border-bottom: 1px solid var(--line); margin: 0 }
+.q li::before { content: "P" counter(q); font-family: var(--mono); font-size: 12px; color: var(--accent); margin-right: 10px }
+footer { max-width: 1120px; margin: 24px auto 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted) }
+
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: minmax(0,1fr); gap: 0 }
+  nav.toc { position: static; margin-bottom: 36px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px }
+  nav.toc ol { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) }
+  header.top { padding-block: 28px 24px }
+}
+</style>
+
+<header class="top">
+  <div class="eyebrow">Expansión no oficial para Catán · Manual preliminar</div>
+  <h1>Señores de las Profundidades</h1>
+  <p class="lede">Los colonos ahora excavan. Cada poblado es una <em>cueva</em>, cada ciudad una <em>cripta</em>, y cada señor tiene su propia hueste de héroes "piadosos" para vaciar el tesoro de sus vecinos en nombre del reino.</p>
+  <div class="meta"><span class="chip">v0.5 · borrador para revisión</span><span>3–4 jugadores</span><span>Meta: 13 PV</span><span>Requiere Catán base + d8, d10, d12 y d20</span><span>24 oct 2026</span></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" aria-label="Índice">
+  <ol>
+    <li><a href="#resumen">Qué cambia</a></li>
+    <li><a href="#componentes">Componentes</a></li>
+    <li><a href="#costos">Construcción y costos</a></li>
+    <li><a href="#turno">El turno</a></li>
+    <li><a href="#heroes">Héroes y rarezas</a></li>
+    <li><a href="#saqueo">El saqueo</a></li>
+    <li><a href="#trampas">Trampas</a></li>
+    <li><a href="#combate">Combate y bajas</a></li>
+    <li><a href="#ocupacion">Ocupación y arrasar</a></li>
+    <li><a href="#fama">Fama y lujo</a></li>
+    <li><a href="#comercio">Comercio y pasajes</a></li>
+    <li><a href="#desarrollo">Cartas de desarrollo</a></li>
+    <li><a href="#victoria">Títulos y victoria</a></li>
+    <li><a href="#probabilidades">Probabilidades</a></li>
+    <li><a href="#enlinea">Jugar en línea</a></li>
+    <li><a href="#pruebas">Notas de prueba</a></li>
+    <li><a href="#revision">Para revisar</a></li>
+  </ol>
+</nav>
+
+<main>
+<section id="resumen">
+  <h2>Qué cambia respecto de Catán</h2>
+  <p>Todo lo que no se menciona acá funciona igual que en Catán base: producción con 2d6, descarte con más de 7 cartas, camino más largo (ahora Túnel más largo) y comercio.</p>
+  <ul>
+    <li><strong>Poblados, ciudades y caminos pasan a ser cuevas, criptas y túneles.</strong></li>
+    <li><strong>No hay ladrón neutral.</strong> Cada jugador tiene una hueste de hasta 10 héroes de cuatro rarezas que defiende sus pueblos y sale a saquear los ajenos.</li>
+    <li><strong>Saquear ocupa:</strong> un grupo que gana se queda en el pueblo y cobra su producción hasta que lo echen o falle la tirada de permanencia. Si aguanta 3 rondas, arrasa la cripta.</li>
+    <li><strong>Trampas ocultas</strong> en cada pueblo, que se revelan al ser atacado.</li>
+    <li><strong>Fama y lujo:</strong> la fama da puntos y compra defensa; el lujo mejora a los héroes.</li>
+    <li><strong>La meta sube a 13 PV.</strong></li>
+  </ul>
+</section>
+
+<section id="componentes">
+  <h2>Componentes</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Componente</th><th class="num">Cantidad</th><th>Uso</th></tr></thead>
+    <tbody>
+      <tr><td>Fichas de héroe</td><td class="num">10 × 4</td><td>Por color: 4 comunes, 3 raros, 2 épicos, 1 legendario</td></tr>
+      <tr><td>Dados d8, d10, d12</td><td class="num">1–3 de cada uno</td><td>Combate de raros, épicos y legendarios</td></tr>
+      <tr><td>Dado d20</td><td class="num">1</td><td>Permanencia de los grupos</td></tr>
+      <tr><td>Cartas de trampa</td><td class="num">25</td><td>6 Foso, 5 Niebla, 4 Alarma, 4 Derrumbe, 6 Señuelo</td></tr>
+      <tr><td>Cartas de desarrollo</td><td class="num">20</td><td>11 Leva de héroes, 5 Reliquia, 3 Veta oculta, 1 Ascensión</td></tr>
+      <tr><td>Títulos</td><td class="num">3</td><td>Túnel más largo, Leyenda del Reino, Mayor hueste</td></tr>
+      <tr><td>Fichas de pasaje</td><td class="num">9</td><td>4 de 3:1 y 5 de 2:1, una por recurso</td></tr>
+      <tr><td>Fichas de lujo</td><td class="num">30</td><td>Se ganan ocupando y defendiendo</td></tr>
+      <tr><td>Pista de fama</td><td class="num">1</td><td>Alrededor del tablero, con un marcador por jugador</td></tr>
+      <tr><td>Murallas y marcadores de trampa</td><td class="num">16 / 32</td><td>Sobre los pueblos</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="costos">
+  <h2>Construcción y costos</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Qué</th><th>Costo</th><th>Efecto</th></tr></thead>
+    <tbody>
+      <tr><td>Túnel</td><td class="res">madera · ladrillo</td><td>Como el camino</td></tr>
+      <tr><td>Cueva</td><td class="res">madera · ladrillo · lana · trigo</td><td><span class="pv">1 PV</span> · produce 1</td></tr>
+      <tr><td>Cripta</td><td class="res">2 trigo · 3 mineral</td><td><span class="pv">2 PV</span> · produce 2 · un dado más al defender</td></tr>
+      <tr><td>Héroe común</td><td class="res">lana · madera</td><td>Una ficha común a tu guardia</td></tr>
+      <tr><td>Trampa</td><td class="res">madera · lana · ladrillo</td><td>Robás una carta de trampa boca abajo; máximo 2 por pueblo</td></tr>
+      <tr><td>Muralla</td><td class="res">2 ladrillo · madera</td><td>+3 a la dificultad de permanencia en ese pueblo</td></tr>
+      <tr><td>Desarrollo</td><td class="res">lana · trigo · mineral</td><td>Una carta de desarrollo</td></tr>
+      <tr><td>Asalto</td><td class="res">2 trigo</td><td>Saquear en tu turno sin haber sacado 7</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>Por qué estos costos.</b> En la v0.4 el mineral aparecía en 5 de 7 costos y la lana casi no se usaba. Ahora el mineral queda para criptas y desarrollo, como en Catán, y la lana y la madera pagan héroes y defensas.</div>
+</section>
+
+<section id="turno">
+  <h2>El turno</h2>
+  <ol class="steps">
+    <li><div><strong>Si tu grupo estaba demorado por un señuelo</strong>, resolvés ese ataque primero.</div></li>
+    <li><div><strong>Tirás 2d6.</strong> Si no es 7, todos producen. Si es 7: se descarta como en Catán, sumás un héroe común y podés saquear.</div></li>
+    <li><div><strong>Acciones, en cualquier orden:</strong> construir, reclutar, fusionar, comprar y jugar una carta de desarrollo, comerciar, expulsar invasores (una vez) y, pagando provisiones, un asalto (uno por turno).</div></li>
+    <li><div><strong>Fin de ronda:</strong> cuando todos jugaron, cada grupo que ocupa un pueblo tira su permanencia.</div></li>
+  </ol>
+</section>
+
+<section id="heroes" class="wide">
+  <h2>Héroes y rarezas</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Rareza</th><th class="num">Fichas</th><th>Dado</th><th class="num">Permanencia</th><th>Cómo se consigue</th><th>Habilidad</th></tr></thead>
+    <tbody>
+      <tr><td><b>Común</b></td><td class="num">4</td><td>d6</td><td class="num">+1</td><td>Reclutar, sacar 7, Leva</td><td>—</td></tr>
+      <tr><td><b>Raro</b></td><td class="num">3</td><td>d8</td><td class="num">+2</td><td>2 comunes + <span class="oro">1 lujo</span></td><td>En tu guardia, espiás la primera trampa de cada objetivo</td></tr>
+      <tr><td><b>Épico</b></td><td class="num">2</td><td>d10</td><td class="num">+3</td><td>2 raros + <span class="oro">2 lujo</span></td><td>Absorbe una derrota por combate sin caer</td></tr>
+      <tr><td><b>Legendario</b></td><td class="num">1</td><td>d12</td><td class="num">+2</td><td>2 épicos + <span class="oro">3 lujo</span>, o carta Ascensión</td><td>Repite una tirada de permanencia fallida</td></tr>
+    </tbody>
+  </table></div>
+  <p style="max-width:72ch">Las fichas fusionadas vuelven a tu reserva. Si no te quedan fichas libres de una rareza, no podés obtener más. Los héroes en casa forman tu <strong>guardia</strong>, que defiende todos tus pueblos. Solo podés tener un grupo afuera a la vez.</p>
+</section>
+
+<section id="saqueo">
+  <h2>El saqueo</h2>
+  <ol class="steps">
+    <li><div><strong>Cuándo:</strong> al sacar 7, o en tu turno con un asalto (2 trigo, uno por turno).</div></li>
+    <li><div><strong>Grupo y objetivo:</strong> elegís qué héroes salen y qué pueblo ajeno atacás. No puede estar ocupado ni ser de alguien con 3 PV menos que vos.</div></li>
+    <li><div><strong>Trampas:</strong> se revelan las del pueblo. Si hay un señuelo, el ataque se demora hasta tu próximo turno.</div></li>
+    <li><div><strong>Fama del defensor:</strong> puede gastar 2 de fama para tirar un dado más.</div></li>
+    <li><div><strong>Combate</strong> (siguiente sección).</div></li>
+    <li><div><strong>Si triunfa:</strong> +2 fama, robás 1 carta al azar y tu grupo ocupa el pueblo. <strong>Si fracasa:</strong> los sobrevivientes vuelven y el defensor gana 1 fama.</div></li>
+  </ol>
+</section>
+
+<section id="trampas">
+  <h2>Trampas</h2>
+  <p>Todas cuestan lo mismo y se roban boca abajo, así que el costo pagado no revela cuál es. Se descartan al revelarse.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Trampa</th><th class="num">Copias</th><th>Efecto</th></tr></thead>
+    <tbody>
+      <tr><td>Foso de estacas</td><td class="num">6</td><td>El grupo pierde su héroe más débil antes del combate</td></tr>
+      <tr><td>Niebla de azufre</td><td class="num">5</td><td>El atacante tira un dado menos</td></tr>
+      <tr><td>Alarma</td><td class="num">4</td><td>El defensor tira un dado más</td></tr>
+      <tr><td>Derrumbe</td><td class="num">4</td><td>Si el saqueo triunfa, −5 en la primera permanencia</td></tr>
+      <tr><td>Señuelo</td><td class="num">6</td><td>El grupo se pierde: ataca al comienzo de su próximo turno, y el defensor puede prepararse</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="combate">
+  <h2>Combate y bajas</h2>
+  <div class="formula">Atacante: los dados de sus 3 mejores héroes (menos Niebla)</div>
+  <div class="formula">Defensor: 1 d6 · +1 d6 si es cripta · +1 dado de su mejor héroe en guardia · +Alarma · +fama</div>
+  <p>Se ordenan los dados de mayor a menor y se comparan de a pares, como en TEG. Los empates ganan los defensores. El saqueo triunfa si el atacante gana al menos una comparación y no pierde más de las que gana.</p>
+  <p><strong>Cada lado elige sus bajas:</strong> por cada comparación perdida cae un héroe a elección de su dueño. Un épico puede absorber una derrota sin caer; si recibe dos, cae. La expulsión funciona igual: el dueño del pueblo ataca con su guardia contra el grupo invasor.</p>
+</section>
+
+<section id="ocupacion">
+  <h2>Ocupación y arrasar</h2>
+  <p>Mientras tu grupo ocupa un pueblo, lo que ese pueblo produce es tuyo. El dueño puede intentar expulsarte una vez por turno, y no puede poner trampas en un pueblo ocupado.</p>
+  <div class="formula">Permanencia: d20 + (1 por común, 2 por raro, 3 por épico, 2 por legendario) ≥ 10 + distancia + 3 si hay muralla + 2 por ronda ya ocupada</div>
+  <p>Si la superás, te quedás y ganás <span class="oro">1 fama</span> y <span class="oro">1 lujo</span>; si no, el grupo vuelve. Un 20 siempre se queda y un 1 siempre vuelve. <strong>A las 3 rondas seguidas arrasás:</strong> una cripta baja a cueva y pierde muralla y trampas, y tu grupo vuelve con +2 fama y +2 lujo. Las cuevas no se destruyen nunca.</p>
+</section>
+
+<section id="fama">
+  <h2>Fama y lujo</h2>
+  <ul>
+    <li><strong>Fama:</strong> +2 por saqueo exitoso, +1 por ronda de ocupación, +2 por arrasar, +1 por resistir un saqueo o expulsar invasores. <strong>Cada 5 de fama vale 1 PV.</strong> Al defenderte podés gastar 2 de fama por un dado extra, así que proteger tus pueblos puede costarte puntos.</li>
+    <li><strong>Lujo:</strong> +1 por ronda de ocupación, +1 por cada héroe enemigo que cae en tus pueblos, +2 por arrasar. Paga las fusiones, o se vende a 2 lujo por 1 recurso.</li>
+  </ul>
+</section>
+
+<section id="comercio">
+  <h2>Comercio y pasajes</h2>
+  <p>Con la banca: 4 a 1. Si tenés un pueblo en un <strong>pasaje de contrabando</strong>, 3 a 1 (pasajes genéricos) o 2 a 1 del recurso del pasaje. Entre jugadores, cualquier trato que acepten ambos, salvo con quien ocupa tus pueblos o a quien vos ocupás.</p>
+</section>
+
+<section id="desarrollo">
+  <h2>Cartas de desarrollo</h2>
+  <ul>
+    <li><strong>Leva de héroes</strong> (11): +2 comunes a tu guardia.</li>
+    <li><strong>Reliquia</strong> (5): 1 PV oculto.</li>
+    <li><strong>Veta oculta</strong> (3): 2 recursos a elección.</li>
+    <li><strong>Ascensión</strong> (1): un raro o épico de tu guardia se vuelve legendario, si tu ficha legendaria está libre.</li>
+  </ul>
+</section>
+
+<section id="victoria">
+  <h2>Títulos y victoria</h2>
+  <p>Gana quien llega a <strong>13 PV</strong> en su turno.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Fuente</th><th class="num">PV</th></tr></thead>
+    <tbody>
+      <tr><td>Cueva / cripta</td><td class="num">1 / 2</td></tr>
+      <tr><td>Reliquia</td><td class="num">1</td></tr>
+      <tr><td>Cada 5 de fama</td><td class="num">1</td></tr>
+      <tr><td>Túnel más largo (5 túneles seguidos)</td><td class="num">2</td></tr>
+      <tr><td>Leyenda del Reino (8 de fama)</td><td class="num">2</td></tr>
+      <tr><td>Mayor hueste (6 héroes entre guardia y expedición)</td><td class="num">2</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="probabilidades" class="wide">
+  <h2>Probabilidades de saqueo</h2>
+  <p style="max-width:72ch">Chance de que el saqueo triunfe según el grupo y la defensa, sin trampas ni fama. Calculado con 60.000 combates simulados por casilla.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Defensa</th><th>1 común</th><th>2 comunes</th><th>3 comunes</th><th>raro + 2 comunes</th><th>2 épicos + raro</th><th>legendario + 2 épicos</th></tr></thead>
+    <tbody>
+<tr><td>Cueva sin guardia</td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 18%, transparent)">42%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 24%, transparent)">57%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 28%, transparent)">66%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 31%, transparent)">74%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 38%, transparent)">91%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 39%, transparent)">94%</span></td></tr>
+<tr><td>Cueva con guardia (común)</td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 10%, transparent)">25%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 23%, transparent)">55%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 30%, transparent)">71%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 33%, transparent)">78%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 39%, transparent)">92%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 40%, transparent)">95%</span></td></tr>
+<tr><td>Cripta sin guardia</td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 11%, transparent)">26%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 23%, transparent)">55%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 30%, transparent)">71%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 33%, transparent)">78%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 39%, transparent)">92%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 40%, transparent)">95%</span></td></tr>
+<tr><td>Cripta con guardia (raro)</td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 5%, transparent)">13%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 13%, transparent)">31%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 12%, transparent)">29%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 16%, transparent)">37%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 27%, transparent)">64%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 30%, transparent)">72%</span></td></tr>
+<tr><td>Cripta, guardia épica y Alarma</td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 3%, transparent)">7%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 8%, transparent)">19%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 7%, transparent)">16%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 9%, transparent)">22%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 20%, transparent)">48%</span></td><td class="p"><span style="background: color-mix(in srgb, var(--accent) 24%, transparent)">58%</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>Un detalle a revisar.</b> Contra 3 dados de defensa, mandar 3 comunes sale un poco peor que mandar 2: con 3 comparaciones hay que ganar 2, y con 2 alcanza con empatar 1 a 1. Está en las preguntas abiertas del final.</div>
+</section>
+
+<section id="enlinea">
+  <h2>Jugar en línea</h2>
+  <p>El prototipo permite crear una sala, invitar con un código de 5 letras y completar asientos con bots de seis estilos. El anfitrión elige el tiempo por turno (60 a 180 s) y por decisión (20 a 45 s). Si se acaba, el juego decide por el jugador: pasa el turno, no gasta fama, reparte las bajas en los héroes más baratos y rechaza ofertas. El primer jugador conectado de la mesa mueve a los bots, así que la partida sigue aunque alguien se desconecte.</p>
+  <p>Las personas invitadas necesitan acceso de <strong>Colaborador</strong> a la página. Las manos y las trampas se ocultan en pantalla, pero el estado viaja completo a cada navegador: es una mesa de confianza, no un sistema a prueba de trampas.</p>
+</section>
+
+<section id="pruebas" class="wide">
+  <h2>Notas de prueba</h2>
+  <div style="max-width:72ch">
+  <p>Seis personalidades de bot jugaron 3000 partidas en mesas mezcladas de 4 (cada estilo aparece en unas 2000). Si todo estuviera parejo, cada uno ganaría cerca del 25%.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Estilo</th><th>Cómo juega</th><th class="num">Gana</th><th class="num">Saqueos</th><th class="num">Éxito</th></tr></thead>
+    <tbody>
+      <tr><td>Oportunista</td><td>Construye primero y saquea con asaltos cuando puede</td><td class="num">33%</td><td class="num">4,3</td><td class="num">30%</td></tr>
+      <tr><td>Constructor</td><td>Criptas y cuevas, saquea poco</td><td class="num">28%</td><td class="num">3,5</td><td class="num">34%</td></tr>
+      <tr><td>Saqueador</td><td>Recluta mucho y ataca seguido</td><td class="num">26%</td><td class="num">6,1</td><td class="num">52%</td></tr>
+      <tr><td>Defensor</td><td>Trampas, murallas y fama para defender</td><td class="num">25%</td><td class="num">3,6</td><td class="num">26%</td></tr>
+      <tr><td>Mercader</td><td>Comercia y compra desarrollo</td><td class="num">22%</td><td class="num">3,6</td><td class="num">34%</td></tr>
+      <tr><td>Ascendente</td><td>Todo para llegar al legendario</td><td class="num">16%</td><td class="num">7,0</td><td class="num">46%</td></tr>
+    </tbody>
+  </table></div>
+  <div style="max-width:72ch">
+  <h3>Qué cambió para llegar acá</h3>
+  <ul>
+    <li><strong>Sin asaltos, el saqueador ganaba el 11%:</strong> solo podía atacar con su propio 7 (unas 3 veces por partida), así que invertir en héroes no rendía. El asalto pagado duplicó sus ataques, pero seguía perdiendo.</li>
+    <li><strong>La fama como puntos lo equilibró:</strong> con 1 PV cada 5 de fama, el saqueador pasó del 11% al 26% y el ascendente del 8% al 16%, sin que el constructor dejara de ser competitivo.</li>
+    <li><strong>Se quitó el bastión:</strong> los bots nunca lo armaban.</li>
+    <li><strong>Títulos más exigentes:</strong> la Leyenda ahora pide 8 de fama (antes 5) y la Mayor hueste 6 héroes (antes 4).</li>
+  </ul>
+  <p>Con estas reglas, la partida dura unas 20 rondas de bots, el desbalance de recursos bajó a la mitad respecto de la v0.4, y quien más recursos pierde por saqueos gana alrededor del 20% de las veces.</p>
+  </div>
+</section>
+
+<section id="revision">
+  <h2>Para revisar</h2>
+  <ol class="q">
+    <li>¿El saqueo debería triunfar con "más victorias que derrotas" en lugar de "al menos una y no más derrotas que victorias"? Hoy mandar 3 héroes contra 3 dados rinde apenas menos que mandar 2.</li>
+    <li>¿La Leyenda del Reino sigue haciendo falta ahora que la fama da puntos directos, o la reemplazamos?</li>
+    <li>El ascendente gana poco: ¿bajamos el costo de fusión del legendario o le damos más usos al lujo?</li>
+    <li>¿El asalto de 2 trigo debería tener algún límite extra (por ejemplo, no contra el mismo jugador dos turnos seguidos)?</li>
+    <li>El legendario temprano duplicaba las chances de ganar (del 24% al 47%). Su permanencia bajó de +4 a +2; si sigue siendo demasiado fuerte, el siguiente paso probado es quitarle la repetición de la tirada o limitar la Ascensión.</li>
+    <li>Faltan las ilustraciones de Ascensión, pasajes de contrabando y los íconos chicos.</li>
+    <li>Reglas para 3 jugadores y para 5–6, y el diseño del tablero personal para la versión física.</li>
+  </ol>
+</section>
+</main>
+</div>
+
+<footer>Expansión hecha por fans, sin relación con los editores de Catán ni de Dungeon Lords. Reglas v0.5, probadas con bots; requieren prueba en mesa.</footer>
