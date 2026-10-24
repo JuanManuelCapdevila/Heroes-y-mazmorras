@@ -1,4 +1,4 @@
-/* Señores de las Profundidades v0.4 — motor de reglas (sin DOM). */
+/* Héroes y mazmorras v0.5 — motor de reglas (sin DOM). */
 (function (root) {
   'use strict';
   const RES = ['madera', 'ladrillo', 'lana', 'trigo', 'mineral'];

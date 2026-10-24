@@ -72,7 +72,7 @@ function App() {
   const [tab, setTab] = useState(() => { const h = (location.hash || '').slice(1); return TABS.some(t => t[0] === h) ? h : 'partida'; });
   return html`<div class="app">
     <header class="top">
-      <div class="brand"><span class="mark">Señores de las Profundidades</span><span class="ver">prototipo v0.5 · expansión no oficial para Catán</span></div>
+      <div class="brand"><span class="mark">Héroes y mazmorras</span><span class="ver">prototipo v0.5.1 · expansión no oficial para Catán</span></div>
       <nav class="tabs" role="tablist">${TABS.map(([k, l]) => html`<button key=${k} role="tab" aria-selected=${tab === k} class=${tab === k ? 'on' : ''} onClick=${() => setTab(k)}>${l}</button>`)}</nav>
     </header>
     <div hidden=${tab !== 'partida'}><${LocalGame}/></div>

@@ -1,8 +1,10 @@
-# Señores de las Profundidades
+# Héroes y mazmorras
 
 Expansión **no oficial** para Catán. Los colonos ahora excavan: cada poblado es una *cueva*, cada ciudad una *cripta*, y cada jugador tiene su propia hueste de héroes "piadosos" para saquear a sus vecinos en nombre del reino.
 
 Este repositorio contiene el prototipo web jugable, el motor de reglas, el simulador de balance y el manual preliminar.
+
+**Jugar:** https://juanmanuelcapdevila.github.io/Heroes-y-mazmorras/ · **Manual:** https://juanmanuelcapdevila.github.io/Heroes-y-mazmorras/manual/
 
 > Proyecto hecho por fans, sin relación con los editores de Catán ni de Dungeon Lords. No incluye material de esos juegos.
 
@@ -30,6 +32,10 @@ npm run build          # arma dist/index.html y copia las ilustraciones
 Abrí `dist/index.html` en el navegador para jugar contra tres bots. La página carga React y htm desde un CDN, así que necesita conexión.
 
 El modo **en línea** (salas, asientos y temporizadores) usa la base de datos compartida y las salas en tiempo real de las páginas publicadas en claude.ai. Fuera de ese entorno, la pestaña "En línea" avisa que no está disponible. Para probarlo localmente, `tools/e2e/mock-claude.js` simula esas capacidades con `localStorage` y `BroadcastChannel` entre pestañas.
+
+## Publicación
+
+Cada push a `main` corre las pruebas de humo, arma la página y la publica en GitHub Pages (`.github/workflows/pages.yml`). En GitHub Pages se juega contra bots; el modo en línea solo funciona en la versión publicada en claude.ai.
 
 ## Simulaciones
 

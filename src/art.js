@@ -72,7 +72,7 @@ function CardBack({ w = 120 }) {
       <path d="M-34 26 H34" stroke="#d9a441" stroke-width="5" stroke-linecap="round"/>
       <circle cy="-4" r="7" fill="#9d78d6"/>
     </g>
-    <text x="125" y="300" text-anchor="middle" font-family="Grenze, serif" font-size="20" letter-spacing="3" fill="#b9a6dc">PROFUNDIDADES</text>
+    <text x="125" y="300" text-anchor="middle" font-family="Grenze, serif" font-size="20" letter-spacing="3" fill="#b9a6dc">MAZMORRAS</text>
   </svg>`;
 }
 
