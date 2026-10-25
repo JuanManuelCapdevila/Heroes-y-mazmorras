@@ -15,6 +15,8 @@ const RES_ICON = {
 };
 
 // ---------- tablero ----------
+const BLD_ART = { cueva: 'mejora-campamento', cripta: 'mejora-cripta' };
+const BLD_NAME = { cueva: 'campamento', cripta: 'cripta' };
 const TW = Math.sqrt(3) * S * 1.06, TH = 2 * S * 1.06;
 function Port({ s, pt }) {
   const { vertices } = s.board;
@@ -74,17 +76,15 @@ function Board({ s, targets, onPick }) {
     })}
     ${Object.keys(s.buildings).map(Number).map(vid => {
       const b = s.buildings[vid], v = vertices[vid], owner = s.players[b.owner];
-      const nt = (owner.traps[vid] || []).length;
       const thr = E.threatOf(s, vid);
       const tp = thr !== null ? s.players[thr] : null;
       const best = tp ? [3, 2, 1, 0].find(r => tp.exp.party[r] > 0) : 0;
-      const sz = (b.type === 'cripta' ? 50 : 42) * (b.muralla ? .82 : 1);
+      const sz = b.type === 'cripta' ? 54 : 48;
       return html`<g key=${'b' + vid} transform=${`translate(${v.x * S} ${v.y * S})`}>
         <ellipse cx="0" cy=${sz * .3} rx=${sz * .5} ry=${sz * .2} fill=${owner.color} stroke="#120d1c" stroke-width="2"/>
-        ${b.muralla ? html`<image href=${SPR('muralla')} x="-33" y="-26" width="66" height="56" preserveAspectRatio="xMidYMid meet" filter="url(#tshadow)"/>` : null}
-        <image href=${SPR(b.type)} x=${-sz / 2} y=${-sz * .62} width=${sz} height=${sz} preserveAspectRatio="xMidYMid meet" filter="url(#tshadow)"/>
+        <image href=${SPR(BLD_ART[b.type])} x=${-sz / 2} y=${-sz * .62} width=${sz} height=${sz} preserveAspectRatio="xMidYMid meet" filter="url(#tshadow)"/>
+        ${b.muralla ? html`<image href=${SPR('borde-muralla')} x="-27" y="-4" width="54" height="38" preserveAspectRatio="xMidYMid meet" filter="url(#tshadow)"/>` : null}
         <g transform=${`translate(${-sz * .42} ${-sz * .58})`}><line x1="0" y1="0" x2="0" y2="16" stroke="#120d1c" stroke-width="2"/><path d="M1 0 L13 4 L1 8 Z" fill=${owner.color} stroke="#120d1c" stroke-width="1.3"/></g>
-        ${nt ? html`<g transform=${`translate(${sz * .5} ${-sz * .55})`}>${Array.from({ length: nt }, (_, i) => html`<path key=${i} d=${`M${i * 9} -5 L${i * 9 + 5} 0 L${i * 9} 5 L${i * 9 - 5} 0 Z`} fill="#2d1f45" stroke="#cbb5ee" stroke-width="1.5"/>`)}</g>` : null}
         ${tp ? html`<g transform=${`translate(${-4} ${-6})`} class=${tp.exp.pending ? 'pulse' : ''}>${HeroToken({ color: tp.color, n: E.total(tp.exp.party), size: 30, rarity: best || 0, faded: tp.exp.pending })}</g>` : null}
       </g>`;
     })}
@@ -124,7 +124,7 @@ function CombatView({ s, ev, me, nameOf }) {
   return html`<div class="combat">
     <p class="sub">${isExp
       ? (atk.id === me ? `Intentás expulsar a los héroes de ${nameOf(def.id)}.` : def.id === me ? `${nameOf(atk.id)} intenta expulsar a tus héroes.` : `${nameOf(atk.id)} intenta expulsar a los héroes de ${nameOf(def.id)}.`)
-      : `${atk.id === me ? 'Enviás' : nameOf(atk.id) + ' envía'} ${E.partyText(ev.sent)} contra ${def.id === me ? 'uno de tus pueblos' : 'un pueblo de ' + nameOf(def.id)}${b ? ' (' + b.type + ')' : ''}, a ${ev.dist} ${ev.dist === 1 ? 'hexágono' : 'hexágonos'}.`}</p>
+      : `${atk.id === me ? 'Enviás' : nameOf(atk.id) + ' envía'} ${E.partyText(ev.sent)} contra ${def.id === me ? 'uno de tus pueblos' : 'un pueblo de ' + nameOf(def.id)}${b ? ' (' + BLD_NAME[b.type] + ')' : ''}, a ${ev.dist} ${ev.dist === 1 ? 'hexágono' : 'hexágonos'}.`}</p>
     ${!isExp ? html`<${PartyRow} party=${ev.sent} color=${atk.color} size=${44}/>` : null}
     ${!isExp ? html`<div class="trapsrow">${ev.traps.length ? ev.traps.map((t, i) => html`<div key=${i} class="flip" style=${{ animationDelay: i * 0.35 + 's' }}><${Card} kind="trampa" id=${t} w=${118}/></div>`) : html`<p class="muted">El pueblo no tenía trampas.</p>`}</div>` : null}
     ${ev.steps.map((t, i) => html`<p key=${i} class="step">${t}</p>`)}

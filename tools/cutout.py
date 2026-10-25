@@ -47,7 +47,8 @@ def parity_mask(a, thr=0.45):
     m = ndi.uniform_filter(score, size=int(P * 1.5))
     return ndi.binary_dilation(m > thr, iterations=2)
 def cut(name, keep_largest=False, sat_t=14):
-    im = Image.open(A + MAP[name] + '-image.jpg').convert('RGB')
+    src = MAP[name]
+    im = Image.open(src if os.path.isabs(src) or src.lower().endswith(('.png', '.jpg', '.jpeg')) else A + src + '-image.jpg').convert('RGB')
     a = np.asarray(im).astype(np.int16)
     sat = a.max(2) - a.min(2); br = a.mean(2)
     cand = (sat < sat_t) & (br > 60)
@@ -59,7 +60,7 @@ def cut(name, keep_largest=False, sat_t=14):
     fg = ~bg
     fg = ndi.binary_fill_holes(fg)
     hero = keep_largest
-    pm = parity_mask(a) if (hero or name == 'muralla') else None
+    pm = parity_mask(a) if (hero or name == 'muralla' or name.startswith(('borde-', 'mejora-'))) else None
     if pm is not None:
         outside = ndi.binary_dilation(~fg, iterations=3)
         lp, npm = ndi.label(pm)

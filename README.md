@@ -1,6 +1,6 @@
 # Héroes y mazmorras
 
-Expansión **no oficial** para Catán. Los colonos ahora excavan: cada poblado es una *cueva*, cada ciudad una *cripta*, y cada jugador tiene su propia hueste de héroes "piadosos" para saquear a sus vecinos en nombre del reino.
+Expansión **no oficial** para Catán. Los colonos ahora excavan: cada poblado es un *campamento*, cada ciudad una *cripta*, y cada jugador tiene su propia hueste de héroes "piadosos" para saquear a sus vecinos en nombre del reino.
 
 Este repositorio contiene el prototipo web jugable, el motor de reglas, el simulador de balance y el manual preliminar.
 
@@ -62,7 +62,7 @@ Estilos de bot: constructor, saqueador, defensor, mercader, oportunista y ascend
 - **Héroes:** 10 fichas por color (4 comunes d6, 3 raros d8, 2 épicos d10, 1 legendario d12). Se recluta en común y se fusiona pagando lujo.
 - **Saqueo:** al sacar 7 o con un asalto (2 trigo). Combate al estilo TEG; cada lado elige sus bajas.
 - **Ocupación:** el grupo que gana se queda y cobra la producción del pueblo; tira d20 al final de cada ronda para quedarse. A las 3 rondas arrasa la cripta.
-- **Trampas ocultas:** foso, niebla, alarma, derrumbe y señuelo.
+- **Trampas ocultas:** foso, niebla, alarma, derrumbe y señuelo. Solo existen como cartas: no hay marcadores en el tablero.
 - **Fama:** cada 5 vale 1 PV, y 2 compran un dado extra al defenderte.
 - **Comercio:** banca, 9 pasajes de contrabando y entre jugadores.
 - **Victoria:** 13 PV.
@@ -71,4 +71,4 @@ El detalle completo está en `docs/manual.html`.
 
 ## Estado
 
-Prototipo v0.5.1, en prueba. Pendientes: ilustraciones de la Ascensión, los pasajes y los íconos chicos; reglas para 3 y 5–6 jugadores; diseño del tablero personal para la versión física.
+Prototipo v0.5.1, en prueba. Pendientes: ilustraciones de la Ascensión, el pasaje de contrabando (trampilla), los terrenos en el estilo isométrico nuevo y los íconos chicos; reglas para 3 y 5–6 jugadores; diseño del tablero personal para la versión física.

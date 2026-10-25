@@ -112,7 +112,7 @@ footer { max-width: 1120px; margin: 24px auto 0; padding-top: 20px; border-top: 
 <header class="top">
   <div class="eyebrow">Expansión no oficial para Catán · Manual preliminar</div>
   <h1>Héroes y mazmorras</h1>
-  <p class="lede">Los colonos ahora excavan. Cada poblado es una <em>cueva</em>, cada ciudad una <em>cripta</em>, y cada señor tiene su propia hueste de héroes "piadosos" para vaciar el tesoro de sus vecinos en nombre del reino.</p>
+  <p class="lede">Los colonos ahora excavan. Cada poblado es un <em>campamento</em>, cada ciudad una <em>cripta</em>, y cada señor tiene su propia hueste de héroes "piadosos" para vaciar el tesoro de sus vecinos en nombre del reino.</p>
   <div class="meta"><span class="chip">v0.5 · borrador para revisión</span><span>3–4 jugadores</span><span>Meta: 13 PV</span><span>Requiere Catán base + d8, d10, d12 y d20</span><span>24 oct 2026</span></div>
 </header>
 
@@ -144,7 +144,7 @@ footer { max-width: 1120px; margin: 24px auto 0; padding-top: 20px; border-top: 
   <h2>Qué cambia respecto de Catán</h2>
   <p>Todo lo que no se menciona acá funciona igual que en Catán base: producción con 2d6, descarte con más de 7 cartas, camino más largo (ahora Túnel más largo) y comercio.</p>
   <ul>
-    <li><strong>Poblados, ciudades y caminos pasan a ser cuevas, criptas y túneles.</strong></li>
+    <li><strong>Poblados, ciudades y caminos pasan a ser campamentos, criptas y túneles.</strong></li>
     <li><strong>No hay ladrón neutral.</strong> Cada jugador tiene una hueste de hasta 10 héroes de cuatro rarezas que defiende sus pueblos y sale a saquear los ajenos.</li>
     <li><strong>Saquear ocupa:</strong> un grupo que gana se queda en el pueblo y cobra su producción hasta que lo echen o falle la tirada de permanencia. Si aguanta 3 rondas, arrasa la cripta.</li>
     <li><strong>Trampas ocultas</strong> en cada pueblo, que se revelan al ser atacado.</li>
@@ -167,7 +167,7 @@ footer { max-width: 1120px; margin: 24px auto 0; padding-top: 20px; border-top: 
       <tr><td>Fichas de pasaje</td><td class="num">9</td><td>4 de 3:1 y 5 de 2:1, una por recurso</td></tr>
       <tr><td>Fichas de lujo</td><td class="num">30</td><td>Se ganan ocupando y defendiendo</td></tr>
       <tr><td>Pista de fama</td><td class="num">1</td><td>Alrededor del tablero, con un marcador por jugador</td></tr>
-      <tr><td>Murallas y marcadores de trampa</td><td class="num">16 / 32</td><td>Sobre los pueblos</td></tr>
+      <tr><td>Murallas</td><td class="num">16</td><td>Se apoyan en el borde de un pueblo</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -178,7 +178,7 @@ footer { max-width: 1120px; margin: 24px auto 0; padding-top: 20px; border-top: 
     <thead><tr><th>Qué</th><th>Costo</th><th>Efecto</th></tr></thead>
     <tbody>
       <tr><td>Túnel</td><td class="res">madera · ladrillo</td><td>Como el camino</td></tr>
-      <tr><td>Cueva</td><td class="res">madera · ladrillo · lana · trigo</td><td><span class="pv">1 PV</span> · produce 1</td></tr>
+      <tr><td>Campamento</td><td class="res">madera · ladrillo · lana · trigo</td><td><span class="pv">1 PV</span> · produce 1</td></tr>
       <tr><td>Cripta</td><td class="res">2 trigo · 3 mineral</td><td><span class="pv">2 PV</span> · produce 2 · un dado más al defender</td></tr>
       <tr><td>Héroe común</td><td class="res">lana · madera</td><td>Una ficha común a tu guardia</td></tr>
       <tr><td>Trampa</td><td class="res">madera · lana · ladrillo</td><td>Robás una carta de trampa boca abajo; máximo 2 por pueblo</td></tr>
@@ -228,7 +228,7 @@ footer { max-width: 1120px; margin: 24px auto 0; padding-top: 20px; border-top: 
 
 <section id="trampas">
   <h2>Trampas</h2>
-  <p>Todas cuestan lo mismo y se roban boca abajo, así que el costo pagado no revela cuál es. Se descartan al revelarse.</p>
+  <p>Todas cuestan lo mismo y se roban boca abajo, así que el costo pagado no revela cuál es. No van en el tablero: se guardan como cartas asignadas a cada pueblo, así que nadie sabe cuántas tiene un pueblo hasta atacarlo. Se descartan al revelarse.</p>
   <div class="tbl"><table>
     <thead><tr><th>Trampa</th><th class="num">Copias</th><th>Efecto</th></tr></thead>
     <tbody>
@@ -253,7 +253,7 @@ footer { max-width: 1120px; margin: 24px auto 0; padding-top: 20px; border-top: 
   <h2>Ocupación y arrasar</h2>
   <p>Mientras tu grupo ocupa un pueblo, lo que ese pueblo produce es tuyo. El dueño puede intentar expulsarte una vez por turno, y no puede poner trampas en un pueblo ocupado.</p>
   <div class="formula">Permanencia: d20 + (1 por común, 2 por raro, 3 por épico, 2 por legendario) ≥ 10 + distancia + 3 si hay muralla + 2 por ronda ya ocupada</div>
-  <p>Si la superás, te quedás y ganás <span class="oro">1 fama</span> y <span class="oro">1 lujo</span>; si no, el grupo vuelve. Un 20 siempre se queda y un 1 siempre vuelve. <strong>A las 3 rondas seguidas arrasás:</strong> una cripta baja a cueva y pierde muralla y trampas, y tu grupo vuelve con +2 fama y +2 lujo. Las cuevas no se destruyen nunca.</p>
+  <p>Si la superás, te quedás y ganás <span class="oro">1 fama</span> y <span class="oro">1 lujo</span>; si no, el grupo vuelve. Un 20 siempre se queda y un 1 siempre vuelve. <strong>A las 3 rondas seguidas arrasás:</strong> una cripta baja a campamento y pierde muralla y trampas, y tu grupo vuelve con +2 fama y +2 lujo. Los campamentos no se destruyen nunca.</p>
 </section>
 
 <section id="fama">
@@ -285,7 +285,7 @@ footer { max-width: 1120px; margin: 24px auto 0; padding-top: 20px; border-top: 
   <div class="tbl"><table>
     <thead><tr><th>Fuente</th><th class="num">PV</th></tr></thead>
     <tbody>
-      <tr><td>Cueva / cripta</td><td class="num">1 / 2</td></tr>
+      <tr><td>Campamento / cripta</td><td class="num">1 / 2</td></tr>
       <tr><td>Reliquia</td><td class="num">1</td></tr>
       <tr><td>Cada 5 de fama</td><td class="num">1</td></tr>
       <tr><td>Túnel más largo (5 túneles seguidos)</td><td class="num">2</td></tr>

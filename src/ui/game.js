@@ -161,7 +161,7 @@ function DecisionModal({ session }) {
   if (pd.kind === 'fama') {
     const atk = s.players[c.attacker], b = s.buildings[c.vid];
     return html`<${Modal} title="¡Te atacan!">
-      <p class="sub">${nameOf(atk.id)} ataca tu ${b.type} con ${E.partyText(c.party)}.</p>
+      <p class="sub">${nameOf(atk.id)} ataca tu ${BLD_NAME[b.type]} con ${E.partyText(c.party)}.</p>
       <${PartyRow} party=${c.party} color=${atk.color} size=${40}/>
       ${c.steps.map((t, i) => html`<p key=${i} class="step">${t}</p>`)}
       <p>¿Invocás tu leyenda? Gastás ${pd.cost} de fama y tirás un dado más de defensa. Tenés ${q.fama} de fama${s.P.famaPV ? `, que hoy vale ${Math.floor(q.fama / s.P.famaPV)} PV` : ''}.</p>
@@ -291,7 +291,7 @@ function Game({ session, onExit }) {
     if (s.phase === 'setup') targets = s.setupSub === 'cueva' ? { kind: 'v', ids: E.setupVertices(s) } : { kind: 'e', ids: E.setupEdges(s) };
     else if (s.phase === 'raid') {
       const ts = E.raidTargets(s, me); const info = {};
-      ts.forEach(t => info[t.vid] = `dist ${t.dist} · ${t.traps}◆${t.spied ? ' · ' + E.TRAPS[t.spied].name.split(' ')[0] : ''}`);
+      ts.forEach(t => info[t.vid] = `dist ${t.dist}${t.spied ? ' · ' + E.TRAPS[t.spied].name.split(' ')[0] : ''}`);
       targets = { kind: 'v', ids: ts.map(t => t.vid), info };
     } else if (s.phase === 'main' && mode) {
       const own = E.ownBuildings(s, me);
@@ -323,14 +323,14 @@ function Game({ session, onExit }) {
     : s.pending ? `Esperando la decisión de ${nameOf(waitingFor)}…`
     : spectator ? `Juega ${nameOf(s.current)}.`
     : !myTurn ? `Juega ${nameOf(s.current)}…`
-    : s.phase === 'setup' ? (s.setupSub === 'cueva' ? 'Elegí un vértice libre para tu cueva.' : 'Elegí por dónde sale el túnel.')
+    : s.phase === 'setup' ? (s.setupSub === 'cueva' ? 'Elegí un vértice libre para tu campamento.' : 'Elegí por dónde sale el túnel.')
     : s.phase === 'roll' ? 'Tirá los dados para producir.'
     : s.phase === 'raid' ? 'Armá tu grupo y elegí un pueblo para saquear, o pasá.'
     : s.phase === 'combate' ? 'Resolviendo el combate…'
-    : mode ? { tunel: 'Elegí un borde para el túnel.', cueva: 'Elegí dónde excavar la cueva.', cripta: 'Elegí la cueva a convertir.', trampa: 'Elegí el pueblo donde esconder la trampa.', muralla: 'Elegí el pueblo a amurallar.', expel: 'Elegí el pueblo ocupado.' }[mode]
+    : mode ? { tunel: 'Elegí un borde para el túnel.', cueva: 'Elegí dónde levantar el campamento.', cripta: 'Elegí el campamento a convertir.', trampa: 'Elegí el pueblo donde esconder la trampa.', muralla: 'Elegí el pueblo a amurallar.', expel: 'Elegí el pueblo ocupado.' }[mode]
     : 'Construí, comerciá o terminá el turno.';
 
-  const BUILD = [['tunel', 'Túnel'], ['cueva', 'Cueva'], ['cripta', 'Cripta'], ['trampa', 'Trampa'], ['muralla', 'Muralla']];
+  const BUILD = [['tunel', 'Túnel'], ['cueva', 'Campamento'], ['cripta', 'Cripta'], ['trampa', 'Trampa'], ['muralla', 'Muralla']];
   const ev = queue[0];
   const myTraps = spectator ? [] : Object.entries(mine.traps).filter(([, a]) => a.length);
   const famaPV = n => s.P.famaPV ? Math.floor(n / s.P.famaPV) : 0;
@@ -339,7 +339,7 @@ function Game({ session, onExit }) {
   return html`<div class="game">
     <div class="boardwrap">
       <${Board} s=${s} targets=${targets} onPick=${onPick}/>
-      <div class="legend"><span><i class="lg dia"></i>trampas ocultas</span><span><i class="lg wall"></i>muralla</span><span><i class="lg port"></i>pasaje de contrabando</span><span>Medallón: grupo saqueador</span></div>
+      <div class="legend"><span><i class="lg wall"></i>muralla</span><span><i class="lg port"></i>pasaje de contrabando</span><span>Medallón: grupo saqueador</span></div>
     </div>
     <aside class="side">
       <section class="turn">
@@ -412,7 +412,7 @@ function Game({ session, onExit }) {
           ${mine.devNew.map((c, i) => html`<div key=${'n' + i} class="newcard"><${Card} kind="dev" id=${c} w=${92} dim/><span>nueva</span></div>`)}
         </div>
         ${myTraps.length ? html`<p class="muted small">Trampas escondidas (solo vos las ves):</p>
-          <div class="cards">${myTraps.flatMap(([v, arr]) => arr.map((t, i) => html`<div key=${v + '-' + i} class="trapcard"><${Card} kind="trampa" id=${t} w=${80}/><span>${s.buildings[v] ? s.buildings[v].type : ''} ${v}</span></div>`))}</div>` : null}
+          <div class="cards">${myTraps.flatMap(([v, arr]) => arr.map((t, i) => html`<div key=${v + '-' + i} class="trapcard"><${Card} kind="trampa" id=${t} w=${80}/><span>${s.buildings[v] ? BLD_NAME[s.buildings[v].type] : ''} ${v}</span></div>`))}</div>` : null}
       </section>` : null}`}
 
       <section>
@@ -447,7 +447,7 @@ function Game({ session, onExit }) {
     </${Modal}>` : null}
     ${!myDecision && ev && ev.type === 'arrasar' ? html`<${Modal} title=${ev.attacker === me ? 'Arrasaste un pueblo' : ev.defender === me ? 'Arrasaron tu pueblo' : 'Pueblo arrasado'} onClose=${() => setQueue(q => q.slice(1))}>
       <div class="center"><img class="ruins" src=${SPR('ruinas')} alt="Ruinas de un pueblo"/></div>
-      <p class="sub center">${ev.attacker === me ? 'Tu grupo sostuvo la ocupación tres rondas: la cripta baja a cueva y pierde sus defensas. Ganás 2 de fama y 2 de lujo.' : `Los héroes de ${nameOf(ev.attacker)} se quedaron tres rondas. La cripta baja a cueva y pierde muralla y trampas; las cuevas no se destruyen.`}</p>
+      <p class="sub center">${ev.attacker === me ? 'Tu grupo sostuvo la ocupación tres rondas: la cripta baja a campamento y pierde sus defensas. Ganás 2 de fama y 2 de lujo.' : `Los héroes de ${nameOf(ev.attacker)} se quedaron tres rondas. La cripta baja a campamento y pierde muralla y trampas; los campamentos no se destruyen.`}</p>
     </${Modal}>` : null}
     ${!myDecision && ev && ev.type === 'permanencia' ? html`<${Modal} title=${'Fin de la ronda ' + ev.round} onClose=${() => setQueue(q => q.slice(1))}>
       <p class="sub">Cada grupo tira 1d20 + su permanencia (común 1, raro 2, épico 3, legendario 2 por héroe) contra 10 + distancia + muralla + 2 por ronda ocupada.</p>

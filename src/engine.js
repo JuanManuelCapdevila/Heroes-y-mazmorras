@@ -156,7 +156,7 @@
     s.phase = 'setup'; s.current = 0; s.round = 0; s.dice = null; s.winner = null;
     s.turn = { devPlayed: false, expelled: false };
     s.events = [];
-    log(s, null, 'Comienza la partida. Cada señor coloca dos cuevas y dos túneles.');
+    log(s, null, 'Comienza la partida. Cada señor levanta dos campamentos y cava dos túneles.');
     return s;
   }
   const pueblo = (s, id) => (s.P.online || s.players[id].bot) ? `el pueblo de ${s.players[id].name}` : 'tu pueblo';
@@ -261,11 +261,11 @@
       if (s.setupStep >= 4) {
         const got = [];
         s.board.vertices[target].hexes.forEach(h => { const r = s.board.hexes[h].res; if (r !== 'desierto') { p.hand[r]++; got.push(RES_LABEL[r].toLowerCase()); } });
-        log(s, p.id, `excava su segunda cueva y recibe ${got.join(', ') || 'nada'}.`);
-      } else log(s, p.id, 'excava su primera cueva.');
+        log(s, p.id, `levanta su segundo campamento y recibe ${got.join(', ') || 'nada'}.`);
+      } else log(s, p.id, 'levanta su primer campamento.');
       return ok();
     }
-    if (!setupEdges(s).includes(target)) return err('El túnel tiene que salir de la cueva recién colocada.');
+    if (!setupEdges(s).includes(target)) return err('El túnel tiene que salir del campamento recién colocado.');
     s.roads[target] = p.id; s.setupSub = 'cueva'; s.setupStep++;
     if (s.setupStep >= s.setupOrder.length) { s.phase = 'roll'; s.current = 0; s.round = 1; log(s, null, 'Ronda 1. Los dados están listos.'); }
     else s.current = s.setupOrder[s.setupStep];
@@ -587,9 +587,9 @@
     const party = p.exp.party; p.exp = null; p.guard = add(p.guard, party);
     s.trapDiscard.push(...(q.traps[vid] || [])); q.traps[vid] = [];
     b.muralla = false;
-    if (b.type === 'cripta') { b.type = 'cueva'; log(s, p.id, `arrasa una cripta de ${q.name}: queda reducida a cueva.`); }
-    else if (s.P.raze !== 'suave' && ownBuildings(s, q.id).length > 2) { delete s.buildings[vid]; log(s, p.id, `arrasa una cueva de ${q.name}: solo quedan ruinas.`); }
-    else log(s, p.id, `saquea a fondo una cueva de ${q.name}, pero no puede arrasar sus últimos pueblos.`);
+    if (b.type === 'cripta') { b.type = 'cueva'; log(s, p.id, `arrasa una cripta de ${q.name}: queda reducida a campamento.`); }
+    else if (s.P.raze !== 'suave' && ownBuildings(s, q.id).length > 2) { delete s.buildings[vid]; log(s, p.id, `arrasa un campamento de ${q.name}: solo quedan ruinas.`); }
+    else log(s, p.id, `saquea a fondo un campamento de ${q.name}, pero no puede arrasar sus últimos pueblos.`);
     p.fama += 2; p.lujo += 2; s.stats.razed[q.id]++; s.stats.razes++;
     pushEv(s, { type: 'arrasar', attacker: p.id, defender: q.id, vid });
   }
@@ -631,14 +631,14 @@
       if (Object.values(s.roads).filter(x => x === p.id).length >= 15) return err('No te quedan túneles.');
       s.roads[target] = p.id; log(s, p.id, 'cava un túnel.');
     } else if (kind === 'cueva') {
-      if (!cuevaVertices(s, p.id).includes(target)) return err('La cueva necesita un túnel propio y dos vértices de distancia.');
-      if (ownBuildings(s, p.id).filter(v => s.buildings[v].type === 'cueva').length >= 5) return err('No te quedan cuevas.');
-      s.buildings[target] = { owner: p.id, type: 'cueva', muralla: false }; log(s, p.id, 'excava una cueva nueva.');
+      if (!cuevaVertices(s, p.id).includes(target)) return err('El campamento necesita un túnel propio y dos vértices de distancia.');
+      if (ownBuildings(s, p.id).filter(v => s.buildings[v].type === 'cueva').length >= 5) return err('No te quedan campamentos.');
+      s.buildings[target] = { owner: p.id, type: 'cueva', muralla: false }; log(s, p.id, 'levanta un campamento nuevo.');
     } else if (kind === 'cripta') {
       const b = s.buildings[target];
-      if (!b || b.owner !== p.id || b.type !== 'cueva') return err('Solo podés convertir una cueva propia.');
+      if (!b || b.owner !== p.id || b.type !== 'cueva') return err('Solo podés convertir un campamento propio.');
       if (ownBuildings(s, p.id).filter(v => s.buildings[v].type === 'cripta').length >= 4) return err('No te quedan criptas.');
-      b.type = 'cripta'; log(s, p.id, 'convierte una cueva en cripta.');
+      b.type = 'cripta'; log(s, p.id, 'convierte un campamento en cripta.');
     } else if (kind === 'trampa') {
       const b = s.buildings[target];
       if (!b || b.owner !== p.id) return err('Las trampas van en tus propios pueblos.');
@@ -853,7 +853,7 @@
       const b = s.buildings[t.vid];
       const spyPen = t.spied ? ({ foso: 2, gas: 1.5, alarma: 1.5, derrumbe: 1, senuelo: 0.5 })[t.spied] : 0;
       const sc = vertexValue(s, t.vid) * (b.type === 'cripta' ? 1.6 : 1) + pvPublic(s, t.owner) * 0.6 - t.dist * 1.1
-        - (t.traps - (t.spied ? 1 : 0)) * 1.4 - spyPen - (total(s.players[t.owner].guard) ? 1.5 : 0) + b.muralla * -1 + rand(s);
+        - (s.P.trapMarkers ? (t.traps - (t.spied ? 1 : 0)) * 1.4 : 0) - spyPen - (total(s.players[t.owner].guard) ? 1.5 : 0) + b.muralla * -1 + rand(s);
       if (sc > bs) { bs = sc; best = t; }
     }
     if (!best || bs < pp.raid) return skipRaid(s);
